@@ -22,11 +22,22 @@ const Todo = ({ todoData, setTodoData }) => {
       endDate: date,
     };
 
-    setTodoData((prev) => [...prev, newData]);
-    setDate("");
-    setInput("");
+    let newDataExist = false;
 
-    toast.success("Task added successfully!");
+    todoData.forEach((todo) => {
+      if (todo.text === newData.text && todo.endDate === newData.endDate) {
+        newDataExist = true;
+      }
+    });
+
+    if (!newDataExist) {
+      setTodoData((prev) => [...prev, newData]);
+      toast.success("Task added successfully!");
+    }else{
+      toast.info("Task already exist!");
+    }
+    setDate("");
+    setInput("");    
   };
 
   const deleteList = (id) => {
@@ -91,7 +102,6 @@ const Todo = ({ todoData, setTodoData }) => {
 
   return (
     <div className="bg-gray-100 w-11/12  max-w-lg p-7 flex flex-col min-h-[550px] rounded-xl my-auto">
-
       <div className="flex items-center mt-7 gap-2">
         <img src={todo_icon} className="w-8" alt="" />
         <h1>To Do List</h1>
@@ -154,7 +164,6 @@ const Todo = ({ todoData, setTodoData }) => {
           );
         })}
       </div>
-
     </div>
   );
 };
